@@ -1,0 +1,4 @@
+import {NextResponse} from 'next/server';
+import {createSession,matchCredential} from '@/lib/auth';
+import {z} from 'zod';
+export async function POST(req:Request){try{const body=z.object({email:z.email(),password:z.string().min(1)}).parse(await req.json());const email=process.env.OFFICE_ADMIN_EMAIL;const password=process.env.OFFICE_ADMIN_PASSWORD;if(!email||!password)throw Error('Administrator login has not been configured');if(body.email.toLowerCase()!==email.toLowerCase()||!matchCredential(body.password,password))return NextResponse.json({error:'Invalid credentials'},{status:401});await createSession({email,role:'Super Admin',name:'Office Administrator'});return NextResponse.json({ok:true})}catch(e){return NextResponse.json({error:e instanceof z.ZodError?'Invalid login details':'Login could not be completed'},{status:400})}}

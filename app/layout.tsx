@@ -1,0 +1,1 @@
+import type {Metadata} from 'next';import './globals.css';export const metadata:Metadata={title:'MPTB MD OFFICE',description:'Digital Executive Office & Virtual PA — Madhya Pradesh Tourism Board'};export default function Layout({children}:{children:React.ReactNode}){return <html lang="en"><body>{children}</body></html>}
