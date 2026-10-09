@@ -107,7 +107,7 @@ export async function getRows(table: TableName): Promise<RecordRow[]> {
 export async function append(table: TableName, record: RecordRow): Promise<RecordRow> {
   const keys = SCHEMA[table] as readonly string[];
   const now = new Date().toISOString();
-  const saved = { ...record, id: randomUUID(), created_at: now, updated_at: now };
+  const saved: RecordRow = { ...record, id: randomUUID(), created_at: now, updated_at: now };
   await sheetRequest(rangeFor(table, `A:${col(keys.length)}`), 'POST', [keys.map((key) => saved[key] ?? '')]);
   return saved;
 }
